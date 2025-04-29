@@ -3,9 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hola Mundo</title>
+    <title>Index</title>
+    <style> /*Aqui se escribe CSS*/
+        /*Selector por id*/
+        #titulo-especial{
+            margin-left: 100px;
+        }
+        /*Selector por etiquetas*/
+        h1, h2, h3, h4, h5, h6{
+            margin: 10px;
+            padding: 10px, 20px, 30px, 40px;
+            border: black 10px dashed;
+        }
+        .primera-lista{
+            list-style-type: upper-roman;
+        }
+        .segunda-lista{
+            list-style: georgian;
+        }
+        ul > li{
+            background-color: blanchedalmond;
+        }
+        ul > li:hover{
+            background-color: rebeccapurple;
+        }
+        ul > li:first-child{
+            background-color: cadetblue;
+        }
+        ul > li:nth-child(3){
+            background-color: yellow;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hola, Mundo!</h1>
+    <h1 id = "titulo-especial" style="background-color: aqua;" >Index</h1>
+    <ul>
+        <li>
+            <a href="index.html">
+                Home
+            </a>
+        </li>
+        <li>
+            <a href="a-tablas-anclas.html">
+                Tablas y Anclas
+            </a>
+        </li>
+        <li>
+            <a href="www.google.com" target="_blank">
+                Google
+            </a>
+        </li>
+    </ul>
+    <ol class = "primera-lista">
+        <li>
+            Este es el primer item de una lista ordenada:
+            <ul>
+                <li>Item 1 de la lista desordenada contenida</li>
+                <li>Item 2 de la lista desordenada contenida</li>
+                <li>Item 3 de la lista desordenada contenida</li>
+            </ul>
+        </li>
+    </ol>
+
+    <p>Submenu</p>
+    <ul>
+        <li>
+            <a href="#parrafo01">
+                Ir al parrafo 01
+            </a>
+        </li>
+        <li>
+            <a href="#parrafo02">
+                Ir al parrafo 02
+            </a>
+        </li>
+        <li>
+            <a href="#2dalista">
+                Ir a la segunda lista ordenada
+            </a>
+        </li>
+    </ul>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <p id = "parrafo01">Parrafo 01</p>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <p id = "parrafo02">Parrafo 02</p>
+    <h2>Imagenes</h2>
+    <img src="images/LAST TOUR.jpg" alt="LAST TOUR">
+    <table>
+        <!-- Table ROW -->
+         <tr>
+            <th>Nombre</th> <!-- Table HEADER -->
+            <th>Apellido</th>
+            <th>Nota</th>
+         </tr>
+         <tr>
+            <td>Gabriel</td> <!-- Table DETAIL -->
+            <td>Vasconez</td>
+            <td>10</td>
+         </tr>
+    </table>
+
+    <ol id = "2dalista" class="segunda-lista">
+        <li>
+            Este es el primer item de una lista ordenada:
+            <ul>
+                <li>Item 1 de la lista desordenada contenida</li>
+                <li>Item 2 de la lista desordenada contenida</li>
+                <li>Item 3 de la lista desordenada contenida</li>
+            </ul>
+        </li>
+    </ol>
 </body>
 </html>
