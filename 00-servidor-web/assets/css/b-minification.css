@@ -1,0 +1,8 @@
+h1 {
+    border: 1px solid #000;
+    background-color: orange;
+    color: green
+}
+.btn:hover {
+    background-color: lightgreen;
+}
