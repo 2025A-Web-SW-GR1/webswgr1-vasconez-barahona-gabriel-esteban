@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --yt-bg-primary: #0f0f0f;
+            --yt-bg-secondary: #212121;
+            --yt-text-primary: #ffffff;
+            --yt-text-secondary: #aaaaaa;
+            --yt-red: #ff0000;
+            --yt-hover: #3d3d3d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--yt-bg-primary);
+            color: var(--yt-text-primary);
+            font-family: 'Roboto', Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--yt-bg-primary);
+            border-bottom: 1px solid #3d3d3d;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 56px;
+        }
+
+        .header .navbar {
+            padding: 0 16px;
+            height: 56px;
+        }
+
+        .youtube-logo {
+            color: var(--yt-text-primary);
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .youtube-logo i {
+            color: var(--yt-red);
+            margin-right: 5px;
+        }
+
+        .search-container {
+            max-width: 640px;
+            flex: 1;
+            margin: 0 40px;
+        }
+
+        .search-form {
+            display: flex;
+            height: 40px;
+        }
+
+        .search-input {
+            background-color: var(--yt-bg-primary);
+            border: 1px solid #3d3d3d;
+            color: var(--yt-text-primary);
+            padding: 0 16px;
+            border-radius: 20px 0 0 20px;
+            flex: 1;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #1c62b9;
+            background-color: var(--yt-bg-secondary);
+        }
+
+        .search-btn {
+            background-color: #3d3d3d;
+            border: 1px solid #3d3d3d;
+            border-left: none;
+            border-radius: 0 20px 20px 0;
+            padding: 0 20px;
+            color: var(--yt-text-primary);
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background-color: #4d4d4d;
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-icon {
+            color: var(--yt-text-primary);
+            font-size: 20px;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .header-icon:hover {
+            background-color: var(--yt-hover);
+        }
+
+        .profile-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: var(--yt-bg-primary);
+            width: 240px;
+            position: fixed;
+            top: 56px;
+            left: 0;
+            height: calc(100vh - 56px);
+            overflow-y: auto;
+            padding: 12px 0;
+            z-index: 999;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 24px;
+            color: var(--yt-text-primary);
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar-item:hover {
+            background-color: var(--yt-hover);
+            color: var(--yt-text-primary);
+        }
+
+        .sidebar-item.active {
+            background-color: var(--yt-hover);
+        }
+
+        .sidebar-item i {
+            width: 24px;
+            margin-right: 24px;
+            font-size: 20px;
+        }
+
+        .sidebar-section {
+            border-bottom: 1px solid #3d3d3d;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+        }
+
+        .sidebar-title {
+            padding: 8px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--yt-text-secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 240px;
+            margin-top: 56px;
+            padding: 24px;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .category-tab {
+            background-color: var(--yt-bg-secondary);
+            color: var(--yt-text-primary);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .category-tab:hover {
+            background-color: var(--yt-hover);
+        }
+
+        .category-tab.active {
+            background-color: var(--yt-text-primary);
+            color: var(--yt-bg-primary);
+        }
+
+        /* Video Grid */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .video-card {
+            cursor: pointer;
+        }
+
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .video-info {
+            display: flex;
+            gap: 12px;
+        }
+
+        .channel-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .video-details h3 {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1.3;
+            margin-bottom: 4px;
+            color: var(--yt-text-primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-meta {
+            font-size: 14px;
+            color: var(--yt-text-secondary);
+            line-height: 1.4;
+        }
+
+        .channel-name {
+            color: var(--yt-text-secondary);
+        }
+
+        .channel-name:hover {
+            color: var(--yt-text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .search-container {
+                display: none;
+            }
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn p-2 me-2" style="color: white;">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="#" class="youtube-logo">
+                    <i class="fab fa-youtube"></i>YouTube
+                </a>
+            </div>
+            
+            <div class="search-container">
+                <form class="search-form">
+                    <input type="text" class="search-input" placeholder="Buscar">
+                    <button type="submit" class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            
+            <div class="header-icons">
+                <i class="fas fa-video header-icon"></i>
+                <i class="fas fa-bell header-icon"></i>
+                <img src="https://yt3.ggpht.com/yti/ANjgQV-kKZWORmDbKmiBgweMlJSmdIiHO8a1rlC1DcF5F3Tmqiw=s88-c-k-c0x00ffffff-no-rj" alt="Profile" class="profile-img">
+            </div>
+        </nav>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <a href="#" class="sidebar-item active">
+                <i class="fas fa-home"></i>
+                Principal
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-play"></i>
+                Shorts
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-bell"></i>
+                Suscripciones
+            </a>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Tú</div>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-history"></i>
+                Historial
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-list"></i>
+                Playlists
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-video"></i>
+                Tus videos
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-clock"></i>
+                Ver más tarde
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-thumbs-up"></i>
+                Videos que me gustan
+            </a>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Suscripciones</div>
+            <a href="#" class="sidebar-item">
+                <img src="https://yt3.ggpht.com/ytc/AIdro_kKXsSgCE27mLarxjo065dzzKa7RQLOU8OeD3kycwEzTDI=s88-c-k-c0x00ffffff-no-rj" alt="Channel" style="width: 24px; height: 24px; border-radius: 50%; margin-right: 24px;">
+                El Fedelobo
+            </a>
+            <a href="#" class="sidebar-item">
+                <img src="https://yt3.ggpht.com/z31XZpAba74_y9imjnAtkGqHxnw-pyiJ51ewXSYS1k2iP78UXmmiUl558lUnCSP-sbEGInFBOg=s88-c-k-c0x00ffffff-no-rj" alt="Channel" style="width: 24px; height: 24px; border-radius: 50%; margin-right: 24px;">
+                enchufetv
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+            <button class="category-tab active">Todos</button>
+            <button class="category-tab">Tenis de mesa</button>
+            <button class="category-tab">Videojuegos</button>
+            <button class="category-tab">Mixes</button>
+            <button class="category-tab">Música</button>
+            <button class="category-tab">Resident Evil 4</button>
+            <button class="category-tab">Podcasts</button>
+            <button class="category-tab">Teorías</button>
+            <button class="category-tab">Audio comentario</button>
+            <button class="category-tab">En tiempo real</button>
+            <button class="category-tab">Notas</button>
+            <button class="category-tab">Misterio</button>
+        </div>
+
+        <!-- Video Grid -->
+        <div class="video-grid">
+            <!-- Video 1 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://i.ytimg.com/vi/UhlflE9gnys/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLC4VBgHsZWQVnwKdNAUGJKVencUsw" alt="Video thumbnail">
+                    <span class="video-duration">10:43</span>
+                </div>
+                <div class="video-info">
+                    <img src="https://yt3.ggpht.com/EEkN1oxdqBK-r35-G6QEQs5FllzF6LGUuHUwKZYKeKNt_UjRpv-_6-SDgaZYKK6U8VFo-ssoQQ=s68-c-k-c0x00ffffff-no-rj" alt="Channel avatar" class="channel-avatar">
+                    <div class="video-details">
+                        <h3>Me pasé Resident Evil 4 con la PEOR pistola del juego</h3>
+                        <div class="video-meta">
+                            <div class="channel-name">Softic TV</div>
+                            <div>975 k vistas • hace 11 meses</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://i.ytimg.com/vi/MvxMCK8BnJg/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLBhp5V4z737IqIegxPm-1Chlhw2uw" alt="Video thumbnail">
+                    <span class="video-duration">17:50</span>
+                </div>
+                <div class="video-info">
+                    <img src="https://yt3.ggpht.com/ytc/AIdro_nW9vIKLA2LLcNEswY6_TUIn1bvF16_DQYfAXSaSa7qrxjS=s68-c-k-c0x00ffffff-no-rj" alt="Channel avatar" class="channel-avatar">
+                    <div class="video-details">
+                        <h3>OLDBOY Coreana Vs OLDBOY Yanki | #OriginalVsRemake</h3>
+                        <div class="video-meta">
+                            <div class="channel-name">Te lo resumo ✓</div>
+                            <div>177 k vistas • hace 6 horas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 3 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://i.ytimg.com/vi/4CpRLyAmksc/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLC6HoyHyhSXWwTre6bVqMqTCmJfOg" alt="Video thumbnail">
+                    <span class="video-duration">12:48</span>
+                </div>
+                <div class="video-info">
+                    <img src="https://yt3.ggpht.com/Vhp_FN9Se4Se5N8qKXXXkKjLDD0SN8DdcD4Px6KacepYJX6LjIFaZT8CfNeVGHW2H_VKZ8oYFw=s68-c-k-c0x00ffffff-no-rj" alt="Channel avatar" class="channel-avatar">
+                    <div class="video-details">
+                        <h3>Formas curiosas de crear texturas para videojuegos</h3>
+                        <div class="video-meta">
+                            <div class="channel-name">Guinxu ✓</div>
+                            <div>587 k vistas • hace 4 años</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 4 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://i.ytimg.com/vi/hBvyU6guwm8/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLDQa5V7PQWVU0IbTs9Tz39K85Mu6w" alt="Video thumbnail">
+                    <span class="video-duration">1:03:00</span>
+                </div>
+                <div class="video-info">
+                    <img src="https://yt3.ggpht.com/SzG83x6KB1bGV9RmBKdxaeVqoYKiuzBgneDBJFJKj5-o8dllB_Ry4CxYEEcoJuq8LtBOih4-Ew=s68-c-k-c0x00ffffff-no-rj" alt="Channel avatar" class="channel-avatar">
+                    <div class="video-details">
+                        <h3>Felix LEBRUN vs Alexis LEBRUN | FINALE | FRANCE</h3>
+                        <div class="video-meta">
+                            <div class="channel-name">ITTF</div>
+                            <div>2M vistas • hace 2 días</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 5 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://i.ytimg.com/vi/fTSEkTMl94w/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLC9w74HASblNLgYLlsWN5Gr1h-uKw" alt="Video thumbnail">
+                    <span class="video-duration">0:23</span>
+                </div>
+                <div class="video-info">
+                    <img src="https://yt3.ggpht.com/ytc/AIdro_lSv_4SKDKtxuAFKyC3wgDvnzH31go7bNFC1mC3QnJAFA=s68-c-k-c0x00ffffff-no-rj" alt="Channel avatar" class="channel-avatar">
+                    <div class="video-details">
+                        <h3>¿Puede existir VIDA EXTRATERRESTRE que NO esté BASADA EN EL CARBONO?</h3>
+                        <div class="video-meta">
+                            <div class="channel-name">CienciaDeSofa</div>
+                            <div>1.2M vistas • hace 1 día</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 6 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://i.ytimg.com/vi/Ljr2wMSBHqU/hqdefault.jpg?sqp=-oaymwExCOADEI4CSFryq4qpAyMIARUAAIhCGAHwAQH4Af4JgALQBYoCDAgAEAEYTyBlKGAwDw==&rs=AOn4CLA5HiECuU4FsbXRUzf-n2M_Gn2omA" alt="Video thumbnail">
+                    <span class="video-duration">Mix</span>
+                </div>
+                <div class="video-info">
+                    <div class="video-details">
+                        <h3>Mix: Música asiática</h3>
+                        <div class="video-meta">
+                            <div class="channel-name">YouTube Music</div>
+                            <div>Playlist • 50+ videos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 7 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://i.ytimg.com/vi/wnRJsM_yHmQ/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLB4RflhuvEMwZaBAR_HOyJ9N4ublw" alt="Video thumbnail">
+                    <span class="video-duration">15:32</span>
+                </div>
+                <div class="video-info">
+                    <img src="https://yt3.ggpht.com/CxYPLJIYQoaeqm-OzonZcBIqxj-vwcOPLT1usmshE9eJfblCdkT2PG-52VIHtBGeAjsrdcL1TQ=s68-c-k-c0x00ffffff-no-rj" alt="Channel avatar" class="channel-avatar">
+                    <div class="video-details">
+                        <h3>Lo Más Poderoso del Universo</h3>
+                        <div class="video-meta">
+                            <div class="channel-name">El Robot de Platón</div>
+                            <div>3.2M vistas • hace 1 semana</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 8 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://i9.ytimg.com/vi/SWQ5OIc1x74/hq720_custom_1.jpg?sqp=CKCbxcEG-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAcr8_5BUNUPNc9l4MIbPszIUMEPg" alt="Video thumbnail">
+                    <span class="video-duration">8:45</span>
+                </div>
+                <div class="video-info">
+                    <img src="https://yt3.ggpht.com/ytc/AIdro_mjZj7QfEdvFKrMVMVwgCFg9zOhN9JG8Ctq7eXsWjF5FPc=s68-c-k-c0x00ffffff-no-rj" alt="Channel avatar" class="channel-avatar">
+                    <div class="video-details">
+                        <h3>La anti MacBook</h3>
+                        <div class="video-meta">
+                            <div class="channel-name">SupraPixel</div>
+                            <div>890k vistas • hace 3 días</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
