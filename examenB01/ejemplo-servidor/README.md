@@ -79,8 +79,8 @@ export class AppController {
 1. **Clonar el repositorio:**
 
    ```bash
-   git clone <URL_DEL_REPOSITORIO>
-   cd <NOMBRE_DEL_PROYECTO>
+   git clone https://github.com/2025A-Web-SW-GR1/webswgr1-vasconez-barahona-gabriel-esteban.git
+   cd examenB01/ejemplo-servidor/
    ```
 
 2. **Instalar dependencias:**
@@ -92,7 +92,7 @@ export class AppController {
 3. **Ejecutar el proyecto en modo desarrollo:**
 
    ```bash
-   npm run start:dev
+   npm run start
    ```
 
 4. **Probar los endpoints utilizando Postman o el navegador:**
