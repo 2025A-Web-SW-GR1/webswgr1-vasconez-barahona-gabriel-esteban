@@ -1,0 +1,23 @@
+meta {
+  name: Creación de Casa
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/api/casa
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nombre": "Casa de David",
+    "valor": 60000,
+    "imagenUrl": "https://images.homify.com/v1441307340/p/photo/image/876952/19TV.jpg"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
