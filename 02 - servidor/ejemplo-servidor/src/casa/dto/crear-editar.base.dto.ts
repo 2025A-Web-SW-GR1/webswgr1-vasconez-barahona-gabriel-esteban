@@ -1,4 +1,4 @@
-import { IsInt, IsUrl, Length, Min } from "class-validator";
+import { IsInt, IsOptional, IsString, IsUrl, Length, Min } from "class-validator";
 
 export class CrearEditarBaseDto{
     @Length(3, 500)
@@ -10,4 +10,12 @@ export class CrearEditarBaseDto{
 
     @IsUrl()
     imagenUrl: string;
+
+    @IsOptional()
+    @IsString()
+    username: string;
+
+    @IsOptional()
+    @IsString()
+    password: string;
 }
